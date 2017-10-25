@@ -30,13 +30,14 @@ engine.info_handlers.append(handler)
 
 
 # Play to the board the static evalution applies to and output it and its evaluation.
-def output_evaluation( board, pv, evalo ):
+def output_evaluation( board, pvo, evalo ):
     tmp_board = board.copy();
+    pv = pvo[1] if 1 in pvo else []
     for move in pv:
         #print(move)
         tmp_board.push(move)
 #    print(tmp_board)
-    eval = evalo.cp/100.0 if evalo.mate == None else evalo.mate * 100
+    eval = evalo[1].cp/100.0 if evalo[1].mate == None else evalo[1].mate * 100
     print(replace_tags(tmp_board.fen()), ":" ,eval, sep = "")
     #print(eval)
 
@@ -51,9 +52,9 @@ def evaluate(board):
     #print ('Board evaluation', handler.info["score"][1].cp/100.0)
     #print ('Best move', board.san(evaluation[0]))
     #print ('Principal variation: ', board.variation_san(handler.info["pv"][1]))
-    print(handler.info["score"], file=sys.stderr)
-    if handler.info["score"][1].mate == None:
-        output_evaluation( board, handler.info["pv"][1], handler.info["score"][1] )
+    #print(handler.info["pv"], file=sys.stderr)
+    #print(handler.info["score"], file=sys.stderr)
+    output_evaluation( board, handler.info["pv"], handler.info["score"] )
 
 #Read pgn file:
 f = open(pgnfilename)
@@ -63,8 +64,8 @@ game = chess.pgn.read_game(f)
 while game != None:
 #    print(game)
     board = game.board()
-    print(game.headers["Date"], file=sys.stderr)
-    print(game.headers["Time"], file=sys.stderr)
+    print(game.headers["Date"] if "Date" in game.headers else "No Date", file=sys.stderr)
+    print(game.headers["Time"] if "Time" in game.headers else "No Time", file=sys.stderr)
     evaluate(board)
     for move in game.main_line():
         #print(move)
