@@ -150,8 +150,8 @@ chess_shape = (1, 8, 8)
 print("Loading data ...")
 # X_data, Y_data = loadData('data/smallSample.data')
 X_data, Y_data = loadData('data/allData.data')
-# X_data = X_data[0:100]
-# Y_data = Y_data[0:100]
+X_data = X_data[0:1000000]
+Y_data = Y_data[0:1000000]
 startTest = (90*X_data.shape[0]) // 100
 endTest = X_data.shape[0]
 X_test = X_data[startTest:endTest]
