@@ -228,7 +228,7 @@ testDim(model5,64)
 testDim(model6,128)
 testDim(model7,256)
 testDim(model8,512)
-testDim3Layer(model10,2048)
+#testDim3Layer(model10,2048)
 
 
 f = open( sys.argv[0] + ".output", 'w' )
